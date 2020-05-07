@@ -1,0 +1,96 @@
+$green_color: #05e8bf;
+$blue_color: #087ee1;
+
+.spacing
+{
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.spacing-top
+{
+    margin-top: 50px;
+    padding-top: 20px;
+}
+
+.spacing-bottom
+{
+    margin-bottom: 50px;
+    padding-bottom: 20px;
+}
+
+body
+{
+    height: 100%;
+    width: auto;
+    background-color: $green_color;
+    background-image: linear-gradient(to bottom right, $green_color, $blue_color);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+form
+{
+    width: 100%;
+    color: $green_color;
+    background-color: rgba(0, 0, 0, 1.00);
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+input
+{
+    width: 80%;
+    background-color: whitesmoke;
+    padding: 8px;
+    border-color: $green_color;
+}
+
+input:hover
+{
+    width: 90%;
+    background-color: whitesmoke;
+    padding: 8px;
+    border-color: $blue_color;
+}
+
+button
+{
+    width: 50%;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-color: $green_color;
+    padding: 6px;
+    border: none;
+}
+
+button:hover
+{
+    width: 50%;
+    background-color: $green_color;
+    color: black;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    opacity: 0.8;
+    border-color: rgba(0, 0, 0, 0.80);
+    padding: 6px;
+    border: none;
+}
+
+#link
+{
+    margin-bottom: 50px;
+    text-align: center;
+    padding: 8px;
+    text-decoration: none;
+    color: $green_color;
+}
+
+#link:hover
+{
+    margin-bottom: 50px;
+    text-decoration: none;
+    color: $blue_color;
+}

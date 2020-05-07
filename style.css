@@ -1,0 +1,84 @@
+.spacing {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.spacing-top {
+  margin-top: 50px;
+  padding-top: 20px;
+}
+
+.spacing-bottom {
+  margin-bottom: 50px;
+  padding-bottom: 20px;
+}
+
+body {
+  height: 100%;
+  width: auto;
+  background-color: #05e8bf;
+  background-image: linear-gradient(to bottom right, #05e8bf, #087ee1);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+form {
+  width: 100%;
+  color: #05e8bf;
+  background-color: black;
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+input {
+  width: 80%;
+  background-color: whitesmoke;
+  padding: 8px;
+  border-color: #05e8bf;
+}
+
+input:hover {
+  width: 90%;
+  background-color: whitesmoke;
+  padding: 8px;
+  border-color: #087ee1;
+}
+
+button {
+  width: 50%;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border-color: #05e8bf;
+  padding: 6px;
+  border: none;
+}
+
+button:hover {
+  width: 50%;
+  background-color: #05e8bf;
+  color: black;
+  font-weight: bold;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  opacity: 0.8;
+  border-color: rgba(0, 0, 0, 0.8);
+  padding: 6px;
+  border: none;
+}
+
+#link {
+  margin-bottom: 50px;
+  text-align: center;
+  padding: 8px;
+  text-decoration: none;
+  color: #05e8bf;
+}
+
+#link:hover {
+  margin-bottom: 50px;
+  text-decoration: none;
+  color: #087ee1;
+}
+
+/*# sourceMappingURL=style.css.map */
