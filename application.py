@@ -20,17 +20,16 @@ Session(app)
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def index():
     username = request.form.get("username")
     password = request.form.get("password")
-
     return render_template("index.html")
 
-@app.route("/register")
+@app.route("/register", methods=["GET","POST"])
 def register():
     username = request.form.get("username")
     password = request.form.get("password")
     rePassword = request.form.get("rePassword")
-    
+
     return render_template("register.html")
