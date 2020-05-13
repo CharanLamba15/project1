@@ -38,16 +38,20 @@ def register():
     username = request.form.get("username")
     password = request.form.get("password")
     rePassword = request.form.get("rePassword")
-    user = db.execute("SELECT * FROM users WHERE username = :username AND password = :password", {"username": username, "password": password}).fetchone()
+    user = db.execute("SELECT * FROM users WHERE username = :username", {"username": username}).fetchone()
     db.commit()
-    if(username != None and username != '1' and password != None and password != '1'):
+    if(user):
+        title = "Account Exists"
+        message = "This account already exists please try a different username"
+        return render_template("error.html", title = title, message = message)
+    if(password != rePassword):
+        title = "Password's don't match"
+        message = "Password and Re-enter password don't match"
+        return render_template("error.html", title = title, message = message)
+    if(username != None and username != '1' and password != None and password != '1' and not user):
         '''db.execute("INSERT INTO users (username, password) VALUES (:username, :password)", {"username": username, "password", password})
         db.commit()'''
         return redirect(url_for('index'))
-    if(user):
-        return render_template("error.html")
-    if(password != rePassword):
-        return render_template("error.html")
     return render_template("register.html")
 
 @app.route("/home", methods=["GET", "POST"])
@@ -70,7 +74,11 @@ def results():
     db.commit()
     authorResults = db.execute("SELECT * FROM books WHERE author LIKE :author", {"author": author})
     db.commit()
-    return render_template("error.html")
+    return render_template("results.html")
+
+@app.route("/home/results/book", methods=["GET"])
+def book():
+    return render_template("book.html")
 
 @app.route("/api/<isbn>", methods=["GET"])
 def api(isbn):

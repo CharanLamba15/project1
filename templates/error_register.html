@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-Geek Book - 404 Error
+Geek Book - Register Error
 {% endblock %}
 
 {% block body %}
@@ -9,7 +9,7 @@ Geek Book - 404 Error
     <div class="row spacing-top">
         <div class="col-sm-3"></div>
         <div class="col-lg-6">
-            <h3>404 Error</h3>
+            <h3>{{ title }}</h3>
         </div>
         <div class="col-sm-3"></div>
     </div>
@@ -23,7 +23,7 @@ Geek Book - 404 Error
     <div class="row spacing">
         <div class="col-sm-3"></div>
         <div class="col-lg-6">
-            <h2 class="lead">ISBN was not found in the database</h2>
+            <h2 class="lead">{{ message }}</h2>
         </div>
         <div class="col-sm-3"></div>
     </div>
@@ -37,7 +37,7 @@ Geek Book - 404 Error
     <div class="row spacing-bottom">
         <div class="col-sm-3"></div>
         <div class="col-lg-6">
-            <a id="link" href="/">Return to Login</a>
+            <a id="link" href="/register">Return to Register</a>
         </div>
         <div class="col-sm-3"></div>
     </div>
