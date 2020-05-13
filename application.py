@@ -25,16 +25,29 @@ db = scoped_session(sessionmaker(bind=engine))
 def index():
     username = request.form.get("username")
     password = request.form.get("password")
+    # user = db.execute("SELECT * FROM users WHERE username = :username AND password = :password", {"username": username, "password": password}).fetchone()
+    # db.commit()
+    # if(user and username != None and password != None):
     if(username == "kinggoony"):
-        return redirect(url_for('home'))
+        return redirect(url_for('home', username = username))
     else:
         return render_template("index.html")
 
-@app.route("/register")
+@app.route("/register", methods=["GET", "POST"])
 def register():
     username = request.form.get("username")
     password = request.form.get("password")
     rePassword = request.form.get("rePassword")
+    user = db.execute("SELECT * FROM users WHERE username = :username AND password = :password", {"username": username, "password": password}).fetchone()
+    db.commit()
+    if(username != None and username != '1' and password != None and password != '1'):
+        '''db.execute("INSERT INTO users (username, password) VALUES (:username, :password)", {"username": username, "password", password})
+        db.commit()'''
+        return redirect(url_for('index'))
+    if(user):
+        return render_template("error.html")
+    if(password != rePassword):
+        return render_template("error.html")
     return render_template("register.html")
 
 @app.route("/home", methods=["GET", "POST"])
@@ -42,16 +55,22 @@ def home():
     isbn = request.form.get("sIsbn")
     title = request.form.get("sTitle")
     author = request.form.get("sAuthor")
-    if isbn:
-        isbnResults = db.execute("SELECT * FROM books WHERE isbn LIKE :isbn", {"isbn": isbn}).fetchall()
-        db.commit()
-    if title:
-        titleResults = db.execute("SELECT * FROM books WHERE title LIKE :title", {"title": title}).fetchall()
-        db.commit()
-    if author:
-        authorResults = db.execute("SELECT * FROM books WHERE author LIKE :author", {"author": author}).fetchall()
-        db.commit()
-    return render_template("home.html")
+    if(isbn or title or author):
+        return redirect(url_for('results', isbn = isbn, title = title, author = author))
+    return render_template("home.html", username = request.args.get('username'))
+
+@app.route("/home/results", methods=["GET", "POST"])
+def results():
+    isbn = request.args.get('isbn')
+    title = request.args.get('title')
+    author = request.args.get('author')
+    isbnResults = db.execute("SELECT * FROM books WHERE isbn LIKE :isbn", {"isbn": isbn})
+    db.commit()
+    titleResults = db.execute("SELECT * FROM books WHERE title LIKE :title", {"title": title})
+    db.commit()
+    authorResults = db.execute("SELECT * FROM books WHERE author LIKE :author", {"author": author})
+    db.commit()
+    return render_template("error.html")
 
 @app.route("/api/<isbn>", methods=["GET"])
 def api(isbn):
