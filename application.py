@@ -25,10 +25,14 @@ db = scoped_session(sessionmaker(bind=engine))
 def index():
     username = request.form.get("username")
     password = request.form.get("password")
-    # user = db.execute("SELECT * FROM users WHERE username = :username AND password = :password", {"username": username, "password": password}).fetchone()
-    # db.commit()
-    # if(user and username != None and password != None):
-    if(username == "kinggoony"):
+    # Make sure username != '1' and password != "1"
+    user = db.execute("SELECT * FROM users WHERE username = :username AND password = :password", {"username": username, "password": password}).fetchone()
+    db.commit()
+    if(user):
+        session['id'] = user.id
+    else:
+        session['id'] = request.args.get('id')
+    if(user and username != None and password != None):
         return redirect(url_for('home', username = username))
     else:
         return render_template("index.html")
@@ -49,36 +53,62 @@ def register():
         message = "Password and Re-enter password don't match"
         return render_template("error.html", title = title, message = message)
     if(username != None and username != '1' and password != None and password != '1' and not user):
-        '''db.execute("INSERT INTO users (username, password) VALUES (:username, :password)", {"username": username, "password", password})
-        db.commit()'''
+        db.execute("INSERT INTO users (username, password) VALUES (:username, :password)", {"username": username, "password": password})
+        db.commit()
         return redirect(url_for('index'))
     return render_template("register.html")
 
 @app.route("/home", methods=["GET", "POST"])
 def home():
-    isbn = request.form.get("sIsbn")
-    title = request.form.get("sTitle")
-    author = request.form.get("sAuthor")
-    if(isbn or title or author):
-        return redirect(url_for('results', isbn = isbn, title = title, author = author))
-    return render_template("home.html", username = request.args.get('username'))
+    if(session['id'] != None):
+        isbn = request.form.get("sIsbn")
+        title = request.form.get("sTitle")
+        author = request.form.get("sAuthor")
+        if(isbn or title or author):
+            return redirect(url_for('results', isbn = isbn, title = title, author = author))
+        return render_template("home.html", username = request.args.get('username'))
+    else:
+        return render_template("access_denied.html")
 
 @app.route("/home/results", methods=["GET", "POST"])
 def results():
-    isbn = request.args.get('isbn')
-    title = request.args.get('title')
-    author = request.args.get('author')
-    isbnResults = db.execute("SELECT * FROM books WHERE isbn LIKE :isbn", {"isbn": isbn})
-    db.commit()
-    titleResults = db.execute("SELECT * FROM books WHERE title LIKE :title", {"title": title})
-    db.commit()
-    authorResults = db.execute("SELECT * FROM books WHERE author LIKE :author", {"author": author})
-    db.commit()
-    return render_template("results.html")
+    if(session['id'] != None):
+        isbn = request.args.get('isbn')
+        title = request.args.get('title')
+        author = request.args.get('author')
+        id = None
+        if(isbn):
+            isbnResults = db.execute("SELECT * FROM books WHERE isbn LIKE :isbn", {'isbn': '%'+isbn+'%'} ).fetchall()
+            db.commit()
+        else:
+            isbnResults = None
+        if(title):
+            titleResults = db.execute("SELECT * FROM books WHERE title LIKE :title", {'title': '%'+title+'%'} ).fetchall()
+            db.commit()
+        else:
+            titleResults = None
+        if(author):
+            authorResults = db.execute("SELECT * FROM books WHERE author LIKE :author", {'author':'%'+author+'%'}).fetchall()
+            db.commit()
+        else:
+            authorResults = None
+        return render_template("results.html", isbnResults = isbnResults, titleResults = titleResults, authorResults = authorResults)
+    else:
+        return render_template("access_denied.html")
 
-@app.route("/home/results/book", methods=["GET"])
+@app.route("/home/results/book", methods=["GET", "POST"])
 def book():
-    return render_template("book.html")
+    if(session['id'] != None):
+        isbn = request.args.get('isbn')
+        # review = requests.form.get('review')
+        id = session["id"]
+        book = db.execute("SELECT * FROM books WHERE isbn = :isbn", {"isbn": isbn}).fetchone()
+        db.commit()
+        # reviewExists = db.execute("SELECT * FROM reviews WHERE id = :id", {"id": id})
+        # db.commit()
+        return render_template("book.html", book = book)
+    else:
+        return render_template("access_denied.html")
 
 @app.route("/api/<isbn>", methods=["GET"])
 def api(isbn):

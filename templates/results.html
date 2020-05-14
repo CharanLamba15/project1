@@ -16,14 +16,58 @@ Geek Book - Results
     <div class="row spacing">
         <div class="col-sm-3"></div>
         <div class="col-lg-6">
- 
+            <h4>Results for ISBN</h4>
+            <div class="list-group">
+                {% if isbnResults %}
+                    {% for book in isbnResults %}
+                        <a href="{{ url_for('book', isbn = book.isbn) }}" class="list-group-item list-group-item-action">
+                            {{ book.title }}
+                        </a>
+                    {% endfor %}
+                {% endif %}
+            </div>
         </div>
         <div class="col-sm-3"></div>
+        <br class="my-4">
+    </div>
+    <div class="row spacing">
+        <div class="col-sm-3"></div>
+        <div class="col-lg-6">
+            <h4>Results for title</h4>
+            <div class="list-group">
+                {% if titleResults %}
+                    {% for book in titleResults %}
+                        <a href="{{ url_for('book', isbn = book.isbn) }}" class="list-group-item list-group-item-action">
+                            {{ book.title }}
+                        </a>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-sm-3"></div>
+        <br class="my-4">
+    </div>
+    <div class="row spacing">
+        <div class="col-sm-3"></div>
+        <div class="col-lg-6">
+            <h4>Results for author</h4>
+            <div class="list-group">
+                {% if authorResults %}
+                    {% for book in authorResults %}
+                        <a href="{{ url_for('book', isbn = book.isbn) }}" class="list-group-item list-group-item-action">
+                            {{ book.title }}
+                        </a>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-sm-3"></div>
+        <br class="my-4">
     </div>
     <div class="row spacing-bottom">
         <div class="col-sm-3"></div>
         <div class="col-lg-6">
-            <a id="link" href="/">Logout</a>
+            <a id="link" href="{{ url_for('index') }}">Logout</a>
         </div>
         <div class="col-sm-3"></div>
     </div>

@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Geek Book - Book
+{% endblock %}
+
+{% block body %}
+
+    <div class="row spacing-top">
+        <div class="col-sm-3"></div>
+        <div class="col-lg-6">
+            <h3>Book: {{ title }}</h3>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+    <div class="row spacing">
+        <div class="col-sm-3"></div>
+        <div class="col-lg-6">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Title: {{ book.title }}</li>
+                <li class="list-group-item">ISBN: {{ book.isbn }}</li>
+                <li class="list-group-item">Author: {{ book.author }}</li>
+                <li class="list-group-item">Year: {{ book.year }}</li>
+              </ul>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+    <div class="row spacing">
+        <div class="col-sm-3"></div>
+        <div class="col-lg-6">
+            <h4>Write Review</h4>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="review"></textarea>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+    <div class="row spacing">
+        <div class="col-sm-3"></div>
+        <div class="col-lg-6">
+            <button type="submit">Submit</button>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+    <div class="row spacing-bottom">
+        <div class="col-sm-3"></div>
+        <div class="col-lg-6">
+            <a id="link" href="{{ url_for('index') }}">Logout</a>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+
+{% endblock %}
