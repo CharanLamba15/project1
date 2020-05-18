@@ -30,12 +30,15 @@ def index():
     db.commit()
     if(user):
         session['id'] = user.id
-    else:
-        session['id'] = request.args.get('id')
     if(user and username != None and password != None):
         return redirect(url_for('home', username = username))
     else:
         return render_template("index.html")
+
+@app.route("/logout", methods=["GET", "POST"])
+def logout():
+    session["id"] = None
+    return redirect(url_for('index'))
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -76,7 +79,6 @@ def results():
         isbn = request.args.get('isbn')
         title = request.args.get('title')
         author = request.args.get('author')
-        id = None
         if(isbn):
             isbnResults = db.execute("SELECT * FROM books WHERE isbn LIKE :isbn", {'isbn': '%'+isbn+'%'} ).fetchall()
             db.commit()
@@ -100,13 +102,31 @@ def results():
 def book():
     if(session['id'] != None):
         isbn = request.args.get('isbn')
-        # review = requests.form.get('review')
+        review = request.form.get('review')
+        rating = request.form.get('rate_list')
         id = session["id"]
+        user = db.execute("SELECT * FROM users WHERE id = :id", {"id": id}).fetchone()
+        db.commit()
         book = db.execute("SELECT * FROM books WHERE isbn = :isbn", {"isbn": isbn}).fetchone()
         db.commit()
-        # reviewExists = db.execute("SELECT * FROM reviews WHERE id = :id", {"id": id})
-        # db.commit()
-        return render_template("book.html", book = book)
+        userReview = db.execute("SELECT * FROM reviews WHERE username = :username AND isbn = :isbn", {"username": user.username, "isbn": isbn}).fetchone()
+        db.commit()
+        reviews = db.execute("SELECT * FROM reviews WHERE isbn = :isbn", {"isbn": isbn}).fetchall()
+        db.commit()
+        res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key":"KISYPCm0YztL3wFFE49rQ", "isbns": isbn})
+        data = res.json()
+        if(userReview):
+            return render_template("book.html", book = book, reviews = reviews, reviewExists = False, average_rating = data['books'][0]['average_rating'], review_count = data['books'][0]['work_ratings_count'])
+        if(review != None):
+            reviewExists = False
+            if(userReview == None):
+                db.execute("INSERT INTO reviews (isbn, review, rating, username) VALUES (:isbn, :review, :rating, :username)", {"isbn": isbn, "review": review, "rating": rating, "username": user.username})
+                db.commit()
+            reviews = db.execute("SELECT * FROM reviews WHERE isbn = :isbn", {"isbn": isbn}).fetchall()
+            db.commit()
+        else:
+            reviewExists = True
+        return render_template("book.html", book = book, reviews = reviews, reviewExists = reviewExists, average_rating = data['books'][0]['average_rating'], review_count = data['books'][0]['work_ratings_count'])
     else:
         return render_template("access_denied.html")
 
@@ -116,7 +136,7 @@ def api(isbn):
     data = res.json()
     book = db.execute("SELECT * FROM books WHERE isbn = :isbn", {"isbn": isbn}).fetchone()
     if book is None:
-        return render_template("error.html")
+        return render_template("error404.html")
     db.commit()
     return jsonify({
                 "title": book.title,
@@ -124,5 +144,5 @@ def api(isbn):
                 "year": book.year,
                 "isbn": book.isbn,
                 "review_count": data['books'][0]['work_ratings_count'],
-                "average_score": data['books'][0]['average_rating']
+                "average_score": float(data['books'][0]['average_rating'])
           })

@@ -1,17 +1,23 @@
 .spacing {
+  float: none;
   margin-top: 30px;
   margin-bottom: 30px;
-}
+  margin-left: auto;
+  margin-right: auto; }
 
 .spacing-top {
+  float: none;
   margin-top: 50px;
   padding-top: 20px;
-}
+  margin-left: auto;
+  margin-right: auto; }
 
 .spacing-bottom {
+  float: none;
   margin-bottom: 50px;
   padding-bottom: 20px;
-}
+  margin-left: auto;
+  margin-right: auto; }
 
 body {
   height: 100%;
@@ -19,30 +25,26 @@ body {
   background-color: #05e8bf;
   background-image: linear-gradient(to bottom right, #05e8bf, #087ee1);
   background-repeat: no-repeat;
-  background-attachment: fixed;
-}
+  background-attachment: fixed; }
 
 form {
   width: 100%;
   color: #05e8bf;
   background-color: black;
   text-align: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
 input {
   width: 80%;
   background-color: whitesmoke;
   padding: 8px;
-  border-color: #05e8bf;
-}
+  border-color: #05e8bf; }
 
 input:hover {
   width: 90%;
   background-color: whitesmoke;
   padding: 8px;
-  border-color: #087ee1;
-}
+  border-color: #087ee1; }
 
 button {
   width: 50%;
@@ -52,8 +54,7 @@ button {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   border-color: #05e8bf;
   padding: 6px;
-  border: none;
-}
+  border: none; }
 
 button:hover {
   width: 50%;
@@ -64,21 +65,26 @@ button:hover {
   opacity: 0.8;
   border-color: rgba(0, 0, 0, 0.8);
   padding: 6px;
-  border: none;
-}
+  border: none; }
 
 #link {
   margin-bottom: 50px;
   text-align: center;
   padding: 8px;
   text-decoration: none;
-  color: #05e8bf;
-}
+  color: #05e8bf; }
 
 #link:hover {
   margin-bottom: 50px;
   text-decoration: none;
-  color: #087ee1;
-}
+  color: #087ee1; }
+
+li {
+  width: 80%;
+  border: 2px solid #05e8bf;
+  color: black; }
+
+textarea {
+  width: 80%; }
 
 /*# sourceMappingURL=style.css.map */

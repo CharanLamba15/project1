@@ -3,20 +3,29 @@ $blue_color: #087ee1;
 
 .spacing
 {
+    float: none;
     margin-top: 30px;
     margin-bottom: 30px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .spacing-top
 {
+    float: none;
     margin-top: 50px;
     padding-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .spacing-bottom
 {
+    float: none;
     margin-bottom: 50px;
     padding-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 body
@@ -93,4 +102,16 @@ button:hover
     margin-bottom: 50px;
     text-decoration: none;
     color: $blue_color;
+}
+
+li
+{
+    width: 80%;
+    border: 2px solid $green_color;
+    color: black;
+}
+
+textarea
+{
+    width: 80%;
 }
